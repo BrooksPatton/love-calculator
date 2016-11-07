@@ -11,6 +11,11 @@ function love.load()
   zero =  newButton('0', {x = 60, y = 280}, {width = 50, height = 50})
   plus =  newButton('+', {x = 0, y = 280}, {width = 50, height = 50}, {246,	135, 44})
   equals =  newButton('=', {x = 120, y = 280}, {width = 50, height = 50}, {246,	135, 44})
+
+  display = 0
+  operator = nil
+  operandOne = nil
+  operandTwo = nil
 end
 
 function love.draw()
