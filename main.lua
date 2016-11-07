@@ -9,6 +9,8 @@ function love.load()
   eight = newButton({x = 60, y = 100}, {width = 50, height = 50})
   nine =  newButton({x = 120, y = 100}, {width = 50, height = 50})
   zero =  newButton({x = 60, y = 280}, {width = 50, height = 50})
+  plus =  newButton({x = 0, y = 280}, {width = 50, height = 50}, {246,	135, 44})
+  equals =  newButton({x = 120, y = 280}, {width = 50, height = 50}, {246,	135, 44})
 end
 
 function love.draw()
@@ -22,16 +24,18 @@ function love.draw()
   eight.draw()
   nine.draw()
   zero.draw()
+  plus.draw()
+  equals.draw()
 end
 
 function love.update(dt)
   print('called: ', dt)
 end
 
-function newButton(location, size)
+function newButton(location, size, color)
   local self = {}
 
-  self.color = {131, 192, 240}
+  self.color = color or {131, 192, 240}
   self.x = location.x
   self.y = location.y
   self.width = size.width
