@@ -1,5 +1,41 @@
 function love.load()
-  buttons = {}
+  calculatorButtons = createButtons()
+
+  calculator = {
+    display = '',
+    operator = nil,
+    operandOne = '',
+    operandTwo = '',
+    resetdisplay = true,
+    maxDisplayLength = 5
+  }
+
+
+  resultFont = love.graphics.newFont(50)
+end
+
+function love.draw()
+  for k,v in pairs(calculatorButtons) do
+    v.draw()
+  end
+
+  love.graphics.setFont(resultFont)
+  love.graphics.setColor(255, 255, 255)
+  love.graphics.printf(calculator.display, 0, 25, 170, 'right')
+end
+
+function love.mousepressed(x, y, button)
+  if string.len(calculator.display) < calculator.maxDisplayLength then
+    for k,v in pairs(calculatorButtons) do
+      if v.clicked(x, y) then
+        updateCalculator(k)
+      end
+    end
+  end
+end
+
+function createButtons()
+  local buttons = {}
 
   buttons[1] =   newButton('1', {x = 0, y = 220}, {width = 50, height = 50})
   buttons[2] =   newButton('2', {x = 60, y = 220}, {width = 50, height = 50})
@@ -14,35 +50,7 @@ function love.load()
   buttons.plus =  newButton('+', {x = 0, y = 280}, {width = 50, height = 50}, {246,	135, 44})
   buttons.equals =  newButton('=', {x = 120, y = 280}, {width = 50, height = 50}, {246,	135, 44})
 
-  display = ''
-  operator = nil
-  operandOne = ''
-  operandTwo = ''
-  resetdisplay = true
-
-  maxDisplayLength = 5
-
-  resultFont = love.graphics.newFont(50)
-end
-
-function love.draw()
-  for k,v in pairs(buttons) do
-    v.draw()
-  end
-
-  love.graphics.setFont(resultFont)
-  love.graphics.setColor(255, 255, 255)
-  love.graphics.printf(display, 0, 25, 170, 'right')
-end
-
-function love.mousepressed(x, y, button)
-  if string.len(display) < maxDisplayLength then
-    for k,v in pairs(buttons) do
-      if v.clicked(x, y) then
-        updateCalculator(k)
-      end
-    end
-  end
+  return buttons
 end
 
 function newButton(text, location, size, color)
@@ -74,29 +82,29 @@ function newButton(text, location, size, color)
 end
 
 function updateCalculator(buttonKey)
-  if not operator and (buttonKey ~= 'plus' and buttonKey ~= 'equals') then
-    if resetdisplay then
-      display = ''
-      resetdisplay = false
+  if not calculator.operator and (buttonKey ~= 'plus' and buttonKey ~= 'equals') then
+    if calculator.esetdisplay then
+      calculator.display = ''
+      calculator.esetdisplay = false
     end
 
-    display = display .. buttonKey
-    operandOne = operandOne .. buttonKey
+    calculator.display = calculator.display .. buttonKey
+    calculator.operandOne = calculator.operandOne .. buttonKey
   elseif (buttonKey ~= 'plus' and buttonKey ~= 'equals') then
-    if resetdisplay then
-      display = ''
-      resetdisplay = false
+    if calculator.esetdisplay then
+      calculator.display = ''
+      calculator.esetdisplay = false
     end
-    
-    display = display .. buttonKey
-    operandTwo = operandTwo .. buttonKey
+
+    calculator.display = calculator.display .. buttonKey
+    calculator.operandTwo = calculator.operandTwo .. buttonKey
   elseif buttonKey == 'plus' then
-    operator = 'plus'
-    resetdisplay = true
+    calculator.operator = 'plus'
+    calculator.esetdisplay = true
   else
-    display = tonumber(operandOne) + tonumber(operandTwo)
-    operandOne, operandTwo = '', ''
-    operator = nil
-    resetdisplay = true
+    calculator.display = tonumber(calculator.operandOne) + tonumber(calculator.operandTwo)
+    calculator.operandOne, calculator.operandTwo = '', ''
+    calculator.operator = nil
+    calculator.esetdisplay = true
   end
 end
