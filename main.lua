@@ -1,6 +1,7 @@
 function love.load()
   calculatorButtons = createButtons()
 
+  -- TODO turn into closure for data storage
   calculator = {
     display = '',
     operator = nil,
@@ -19,6 +20,7 @@ function love.draw()
     v.draw()
   end
 
+  -- TODO put into its own function
   love.graphics.setFont(resultFont)
   love.graphics.setColor(255, 255, 255)
   love.graphics.printf(calculator.display, 0, 25, 170, 'right')
@@ -53,6 +55,7 @@ function createButtons()
   return buttons
 end
 
+-- TODO Turn into class for oop instead of closure
 function newButton(text, location, size, color)
   local self = {}
 
