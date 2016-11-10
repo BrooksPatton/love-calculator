@@ -16,6 +16,8 @@ function love.load()
   operator = nil
   operandOne = nil
   operandTwo = nil
+
+  resultFont = love.graphics.newFont(50)
 end
 
 function love.draw()
@@ -31,6 +33,10 @@ function love.draw()
   zero.draw()
   plus.draw()
   equals.draw()
+
+  love.graphics.setFont(resultFont)
+  love.graphics.setColor(255, 255, 255)
+  love.graphics.printf(display, 0, 25, 170, 'right')
 end
 
 function love.update(dt)
@@ -47,13 +53,13 @@ function newButton(text, location, size, color)
   self.height = size.height
 
   local text = text
-
-  local font = love.graphics.getFont()
+  local font = love.graphics.newFont(12)
 
   self.draw = function()
     love.graphics.setColor(self.color[1], self.color[2], self.color[3])
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
 
+    love.graphics.setFont(font)
     love.graphics.setColor(0, 0, 0)
     love.graphics.printf(text, self.x, self.y + ((self.height / 2) - (font:getHeight() / 2)), self.width, 'center')
   end
